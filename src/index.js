@@ -3,11 +3,30 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import { transactionReducer } from './reducers/transactionReducer'
+import Data from './DummyData.json'
 
+var testObject = Data;
+// localStorage.setItem('testObject', JSON.stringify(testObject));
+
+if (localStorage.getItem('testObject') == null)
+  // localStorage.setItem('testObject', JSON.stringify([]))
+  localStorage.setItem('testObject', JSON.stringify(testObject));
+
+
+let initialState = {
+  currentIndex: -1,
+  list: JSON.parse(localStorage.getItem('testObject'))
+}
+
+var store = createStore(transactionReducer, initialState)
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>
+  ,
   document.getElementById('root')
 );
 
